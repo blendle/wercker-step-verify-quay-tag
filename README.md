@@ -1,4 +1,4 @@
-# Quay.io image tag verification
+# Quay.io image tag verification [![wercker status](https://app.wercker.com/status/65b620ad1f4ca8c0a15484ebaa0e0757/s/master "wercker status")](https://app.wercker.com/project/bykey/65b620ad1f4ca8c0a15484ebaa0e0757)
 
 Using this step, you can verify the existence of an image tag on Quay.io. The
 step will fail if the image tag does not exist, possibly preventing you from
