@@ -15,7 +15,6 @@ properties:
     required: false
   tag:
     type: string
-    default: latest
     required: false
   message:
     type: string
