@@ -1,8 +1,8 @@
 #!/bin/sh
-#shellcheck disable=2086,2089,SC2090
 
 main() {
   tag="$WERCKER_VERIFY_QUAY_TAG_TAG"
+  curl_command="curl --fail"
 
   if [ -z "$tag" ]; then
     tag="${WERCKER_GIT_COMMIT:-latest}"
@@ -13,18 +13,20 @@ main() {
   fi
 
   if [ -n "$WERCKER_VERIFY_QUAY_TAG_TOKEN" ]; then
-    auth="--header 'Authorization: Bearer $WERCKER_VERIFY_QUAY_TAG_TOKEN'"
+    curl_command="$curl_command --header \"Authorization: Bearer $WERCKER_VERIFY_QUAY_TAG_TOKEN\""
   fi
+
+  if [ "$WERCKER_VERIFY_QUAY_TAG_DEBUG" != "true" ]; then
+    curl_command="$curl_command --silent --output /dev/null"
+  fi
+
+  curl_command="$curl_command https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images"
 
   if [ "$WERCKER_VERIFY_QUAY_TAG_DEBUG" = "true" ]; then
-    args="--fail"
-    debug "curl $args $auth https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images"
-  else
-    args="--fail --silent --output /dev/null"
+    debug "$curl_command"
   fi
 
-  curl $args $auth "https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images" \
-    || fail "$WERCKER_VERIFY_QUAY_TAG_MESSAGE"
+  eval "$curl_command" || fail "$WERCKER_VERIFY_QUAY_TAG_MESSAGE"
 }
 
 debug() {
