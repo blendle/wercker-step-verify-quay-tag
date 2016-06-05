@@ -1,6 +1,8 @@
 #!/bin/sh
+#shellcheck disable=2086,2089,SC2090
 
 main() {
+  args="--fail --silent --output /dev/null"
   tag="$WERCKER_VERIFY_QUAY_TAG_TAG"
 
   if [ -z "$tag" ]; then
@@ -11,10 +13,14 @@ main() {
     auth="--header 'Authorization: Bearer $WERCKER_VERIFY_QUAY_TAG_TOKEN'"
   fi
 
-  curl_with_flags "$auth" "https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images" \
+  curl $args $auth "https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images" \
     || fail "$WERCKER_VERIFY_QUAY_TAG_MESSAGE"
 }
 
-curl_with_flags() { curl --fail --silent --output /dev/null "$@"; }
+fail() {
+  printf "%b%b%b\n" "\e[1;31m" "failed: $1" "\e[m"
+  echo "$1" > "$WERCKER_REPORT_MESSAGE_FILE"
+  exit 1
+}
 
 main
