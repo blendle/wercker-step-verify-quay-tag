@@ -17,8 +17,16 @@ main() {
     auth="--header 'Authorization: Bearer $WERCKER_VERIFY_QUAY_TAG_TOKEN'"
   fi
 
+  if [ "$WERCKER_VERIFY_QUAY_TAG_DEBUG" = "true" ]; then
+    debug "curl $args $auth https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images"
+  fi
+
   curl $args $auth "https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images" \
     || fail "$WERCKER_VERIFY_QUAY_TAG_MESSAGE"
+}
+
+debug() {
+  printf "%b%b%b\n" "\e[38m\e[1m" "$1" "\e[m"
 }
 
 fail() {

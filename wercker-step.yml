@@ -19,3 +19,6 @@ properties:
   message:
     type: string
     required: false
+  debug:
+    type: string
+    required: false
