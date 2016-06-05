@@ -2,7 +2,6 @@
 #shellcheck disable=2086,2089,SC2090
 
 main() {
-  args="--fail --silent --output /dev/null"
   tag="$WERCKER_VERIFY_QUAY_TAG_TAG"
 
   if [ -z "$tag" ]; then
@@ -18,7 +17,10 @@ main() {
   fi
 
   if [ "$WERCKER_VERIFY_QUAY_TAG_DEBUG" = "true" ]; then
+    args="--fail"
     debug "curl $args $auth https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images"
+  else
+    args="--fail --silent --output /dev/null"
   fi
 
   curl $args $auth "https://quay.io/api/v1/repository/$WERCKER_VERIFY_QUAY_TAG_REPOSITORY/tag/$tag/images" \
