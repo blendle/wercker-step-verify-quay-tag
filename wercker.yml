@@ -7,6 +7,7 @@ build:
     - script:
         name: test run.sh
         code: |
+          export WERCKER_VERIFY_QUAY_TAG_DEBUG=true
           export WERCKER_VERIFY_QUAY_TAG_REPOSITORY=blendle/true
           WERCKER_VERIFY_QUAY_TAG_TAG=latest $WERCKER_ROOT/run.sh
           WERCKER_VERIFY_QUAY_TAG_TAG=other $WERCKER_ROOT/run.sh
