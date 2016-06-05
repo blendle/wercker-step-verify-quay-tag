@@ -18,5 +18,4 @@ properties:
     required: false
   message:
     type: string
-    default: tag could not be found on Quay
     required: false

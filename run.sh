@@ -9,6 +9,10 @@ main() {
     tag="${WERCKER_GIT_COMMIT:-latest}"
   fi
 
+  if [ -z "$WERCKER_VERIFY_QUAY_TAG_MESSAGE" ]; then
+    WERCKER_VERIFY_QUAY_TAG_MESSAGE="tag \"$tag\" could not be found on $WERCKER_VERIFY_QUAY_TAG_REPOSITORY"
+  fi
+
   if [ -n "$WERCKER_VERIFY_QUAY_TAG_TOKEN" ]; then
     auth="--header 'Authorization: Bearer $WERCKER_VERIFY_QUAY_TAG_TOKEN'"
   fi
