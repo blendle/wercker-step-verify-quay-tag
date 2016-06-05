@@ -30,7 +30,7 @@ debug() {
 }
 
 fail() {
-  printf "%b%b%b\n" "\e[1;31m" "failed: $1" "\e[m"
+  printf "%b%b%b\n" "\e[31m\e[1m" "failed: $1" "\e[m"
   echo "$1" > "$WERCKER_REPORT_MESSAGE_FILE"
   exit 1
 }

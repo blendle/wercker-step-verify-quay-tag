@@ -10,9 +10,9 @@ deploying an image that does not exist.
 deploy:
   steps:
   - blendle/verify-quay-tag:
-    token: hello-world          # optional, for private repositories
     repository: blendle/true    # required, org/repo format
     tag: other                  # optional, defaults to "$WERCKER_GIT_COMMIT" or "latest"
+    token: hello-world          # optional, for private repositories
     message: 4-oh-4!            # optional, printed failure message
     debug: true                 # optional, print debug information
 ```
